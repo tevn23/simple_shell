@@ -1,62 +1,49 @@
-#include <stdio.h>
-#include <stdlib.h>
-#include <unistd.h>
-#include <string.h>
-
-#define MAX_INPUT_SIZE 1024
+#include "shell.h"
 
 /**
- * main - Simple UNIX command line interpreter
- *
- * Description: This program creates a simple shell that accepts single-word
- * commands and executes them. It prompts the user for input, executes the
- * entered command (or simulates execution by echoing), and exits upon entering
- * the 'exit' command or encountering the end-of-file condition (Ctrl+D).
- *
+ * main - Entry point, reads user input, tokenizes it, and executes commands
+ * @ac: Number of command-line arguments
+ * @av: Array of strings containing command-line arguments
+ * @envp: Array of strings containing environment variables
  * Return: Always 0
  */
-int main(void)
+int main(int ac, char **av, char **envp)
 {
-	char input[MAX_INPUT_SIZE]; /* Buffer to hold user input */
-	ssize_t read_bytes; /* Variable to store the number of bytes read */
+        char *input = NULL;
+        size_t input_size = 0;
+        ssize_t input_length;
+        int i;
 
-	while (1)
-	{
-		/* Displaying prompt and flushing output */
-		printf("simple_shell> ");
+        while (1)
+        {
+                /* Display prompt */
+                printf("simple_shell$ ");
 		fflush(stdout);
-		
-		/* Reading user input from standard input */
-		read_bytes = read(STDIN_FILENO, input, MAX_INPUT_SIZE);
 
-		/* Checking for end-of-file condition */
-		if (read_bytes == 0)
-		{
-			printf("\n");
-			break;
-		}
-		
-		/* Handling read error */
-		if (read_bytes == -1)
-		{
-			perror("read");
-			exit(EXIT_FAILURE);
-		}
-		
-		/* Handling newline character in the input */
-		if (input[read_bytes - 1] == '\n')
-			input[read_bytes - 1] = '\0';
-		else
-			input[read_bytes] = '\0';
+                /* Read command from user */
+                input_length = getline(&input, &input_size, stdin);
 
-		/* Exiting the shell upon 'exit' command */
-		if (strcmp(input, "exit") == 0)
-			break;
+                /* Check for End of File (Ctrl+D) */
+                if (input_length == -1)
+                {
+                        _putchar('\n');
+                        free(input);
+                        exit(EXIT_SUCCESS);
+                }
 
-		/* Simulating command execution by echoing the entered command */
-		printf("Executing command: %s\n", input);
-	}
+                /* Remove newline character */
+                if (input_length > 0 && input[input_length - 1] == '\n')
+                        input[input_length - 1] = '\0';
 
-	return 0;
+                tokenize_input(input, av);
+
+                if (ac > 0)
+                        execute_command(av, envp);
+
+                /* Free arguments memory */
+                for (i = 0; av[i] != NULL; i++)
+                        free(av[i]);
+        }
+
+        return (0);
 }
-
