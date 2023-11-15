@@ -14,6 +14,8 @@ int main(int ac, char **av, char **envp)
         ssize_t input_length;
         int i;
 
+	(void)i;
+
         while (1)
         {
                 /* Display prompt */
@@ -35,14 +37,12 @@ int main(int ac, char **av, char **envp)
                 if (input_length > 0 && input[input_length - 1] == '\n')
                         input[input_length - 1] = '\0';
 
-                tokenize_input(input, av);
+                /* Executing the command */
+		av[0] = input;
+		av[1] = NULL;
 
                 if (ac > 0)
                         execute_command(av, envp);
-
-                /* Free arguments memory */
-                for (i = 0; av[i] != NULL; i++)
-                        free(av[i]);
         }
 
         return (0);

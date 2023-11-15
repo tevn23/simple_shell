@@ -40,7 +40,7 @@ void execute_command(char **av, char **envp)
  * @av: Array of strings to store the tokenized command and arguments
  */
 
-void tokenize_input(char *input, char **av)
+/*void tokenize_input(char *input, char **av)
 {
 	int ac = 0;
 	char *token;
@@ -52,5 +52,5 @@ void tokenize_input(char *input, char **av)
 		token = strtok(NULL, " ");
 	}
 	av[ac] = NULL;
-}
+}*/
 
