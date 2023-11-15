@@ -15,6 +15,7 @@ int main(int ac, char **av, char **envp)
     pid_t pid;
     int i;
 
+
     while (1) {
 	    /* Display prompt */
 	    printf("simple_shell> ");
@@ -38,6 +39,7 @@ int main(int ac, char **av, char **envp)
 	    }
 
 	    /* Tokenizing input to get command and arguments */
+
 	    ac = 0;
 	    token = strtok(input, " ");
 	    while (token != NULL && ac < MAX_AV - 1)
