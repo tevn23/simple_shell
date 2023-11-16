@@ -16,7 +16,6 @@ int main(int ac, char **av, char **envp)
 
 	while (1)
 	{
-		printf("simple_shell$ ");
 		input_length = getline(&input, &input_size, stdin);
 		if (input_length == -1)
 		{
