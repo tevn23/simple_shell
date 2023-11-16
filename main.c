@@ -12,6 +12,7 @@ int main(int ac, char **av, char **envp)
 	char *input = NULL;
 	size_t input_size = 0;
 	ssize_t input_length;
+	int i;
 
 	while (1)
 	{
