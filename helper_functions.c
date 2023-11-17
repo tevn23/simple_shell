@@ -33,24 +33,3 @@ void execute_command(char **av, char **envp)
 		waitpid(pid, NULL, 0);
 	}
 }
-
-/**
- * tokenize_input - Tokenizes input string to extract command and arguments
- * @input: Input string containing the command and its arguments
- * @av: Array of strings to store the tokenized command and arguments
- */
-
-/*void tokenize_input(char *input, char **av)
-{
-	int ac = 0;
-	char *token;
-
-	token = strtok(input, " ");
-	while (token != NULL && ac < MAX_AV - 1)
-	{
-		av[ac++] = strdup(token);
-		token = strtok(NULL, " ");
-	}
-	av[ac] = NULL;
-}*/
-
